@@ -81,7 +81,7 @@ func (model *WalletModel) Create(address string, userid string) error {
 		return fmt.Errorf("userid param can't be empty string")
 	}
 
-	query := model.GetSQL("nos.orm.model.create")
+	query := model.GetSQL("nos.orm.wallet.create")
 
 	return model.Tx(func(tx *sql.Tx) error {
 
@@ -109,7 +109,7 @@ func (model *WalletModel) Delete(address string, userid string) error {
 		return fmt.Errorf("userid param can't be empty string")
 	}
 
-	query := model.GetSQL("nos.orm.model.delete")
+	query := model.GetSQL("nos.orm.wallet.delete")
 
 	return model.Tx(func(tx *sql.Tx) error {
 
@@ -133,7 +133,7 @@ func (model *WalletModel) GetByAddress(address string) (find *Wallet, err error)
 		return nil, fmt.Errorf("address param can't be empty string")
 	}
 
-	query := model.GetSQL("nos.orm.model.delete")
+	query := model.GetSQL("nos.orm.wallet.delete")
 
 	err = model.Tx(func(tx *sql.Tx) error {
 
