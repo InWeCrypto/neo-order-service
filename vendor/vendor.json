@@ -4,10 +4,10 @@
 	"package": [
 		{
 			"checksumSHA1": "8G3MdcWpgaVSwl1Yh/n6yJo3w5o=",
-			"origin": "github.com/dynamicgo/aliyunlog/vendor/github.com/Jeffail/gabs",
+			"origin": "github.com/dynamicgo/config/vendor/github.com/Jeffail/gabs",
 			"path": "github.com/Jeffail/gabs",
-			"revision": "52c03acb69e0d9eb5d6d8f6233259b6f202e2317",
-			"revisionTime": "2017-11-24T16:40:48Z"
+			"revision": "c63b4d14f7b661a2b6d3d2f91cbec79442285d97",
+			"revisionTime": "2017-11-25T14:35:14Z"
 		},
 		{
 			"checksumSHA1": "vqTaEZndZ4SQNNX1nqQ36s4odgg=",
@@ -17,26 +17,11 @@
 			"revisionTime": "2017-11-26T09:54:29Z"
 		},
 		{
-			"checksumSHA1": "fJl61EA6M1x8NG1lRgNyxegdQls=",
-			"origin": "github.com/dynamicgo/aliyunlog/vendor/github.com/aliyun/go-loghub",
-			"path": "github.com/aliyun/go-loghub",
-			"revision": "52c03acb69e0d9eb5d6d8f6233259b6f202e2317",
-			"revisionTime": "2017-11-24T16:40:48Z"
-		},
-		{
 			"checksumSHA1": "NykgODYqok9ED1APp7mmN5w3GTg=",
 			"origin": "github.com/inwecrypto/gomq-kafka/vendor/github.com/bsm/sarama-cluster",
 			"path": "github.com/bsm/sarama-cluster",
 			"revision": "733a7bec73f91ef382c33d0497bcbc3a8a618db3",
 			"revisionTime": "2017-11-26T09:54:29Z"
-		},
-		{
-			"checksumSHA1": "8dMf/LWTKUevSFeTpcs/Bq6ePcs=",
-			"origin": "github.com/dynamicgo/aliyunlog/vendor/github.com/cloudflare/golz4",
-			"path": "github.com/cloudflare/golz4",
-			"revision": "52c03acb69e0d9eb5d6d8f6233259b6f202e2317",
-			"revisionTime": "2017-11-24T16:40:48Z",
-			"tree": true
 		},
 		{
 			"checksumSHA1": "mrz/kicZiUaHxkyfvC/DyQcr8Do=",
@@ -70,13 +55,7 @@
 			"revisionTime": "2017-06-29T03:54:44Z"
 		},
 		{
-			"checksumSHA1": "gdKDoAjJ6qJ0Xc4SplV293yV5X8=",
-			"path": "github.com/dynamicgo/aliyunlog",
-			"revision": "52c03acb69e0d9eb5d6d8f6233259b6f202e2317",
-			"revisionTime": "2017-11-24T16:40:48Z"
-		},
-		{
-			"checksumSHA1": "ryKR1V2yMxIvodh3vPipAvCY8HA=",
+			"checksumSHA1": "FbcM2THHHwG+T4WbruyMPUdB1X8=",
 			"path": "github.com/dynamicgo/config",
 			"revision": "c63b4d14f7b661a2b6d3d2f91cbec79442285d97",
 			"revisionTime": "2017-11-25T14:35:14Z"
@@ -137,20 +116,6 @@
 			"path": "github.com/gin-gonic/gin/render",
 			"revision": "eeb57848cac06c360a3c262837394051018b8f66",
 			"revisionTime": "2017-11-21T13:18:45Z"
-		},
-		{
-			"checksumSHA1": "wn2shNJMwRZpvuvkf1s7h0wvqHI=",
-			"origin": "github.com/dynamicgo/aliyunlog/vendor/github.com/gogo/protobuf/proto",
-			"path": "github.com/gogo/protobuf/proto",
-			"revision": "52c03acb69e0d9eb5d6d8f6233259b6f202e2317",
-			"revisionTime": "2017-11-24T16:40:48Z"
-		},
-		{
-			"checksumSHA1": "HmbftipkadrLlCfzzVQ+iFHbl6g=",
-			"origin": "github.com/dynamicgo/aliyunlog/vendor/github.com/golang/glog",
-			"path": "github.com/golang/glog",
-			"revision": "52c03acb69e0d9eb5d6d8f6233259b6f202e2317",
-			"revisionTime": "2017-11-24T16:40:48Z"
 		},
 		{
 			"checksumSHA1": "yqF125xVSkmfLpIVGrLlfE05IUk=",

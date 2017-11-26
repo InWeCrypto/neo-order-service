@@ -95,8 +95,8 @@ func (config *Config) GetInt64(path string, defaultval int64) int64 {
 		return defaultval
 	}
 
-	if val, ok := value.(int64); ok {
-		return val
+	if val, ok := value.(float64); ok {
+		return int64(val)
 	}
 
 	return defaultval

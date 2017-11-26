@@ -145,6 +145,8 @@ func (model *WalletModel) GetByAddress(address string) (find *Wallet, err error)
 			return err
 		}
 
+		defer rows.Close()
+
 		if rows.Next() {
 			var wallet Wallet
 
@@ -239,6 +241,8 @@ func (model *OrderModel) Status(txid string) (ok bool, err error) {
 			return err
 		}
 
+		defer rows.Close()
+
 		ok = rows.NextResultSet()
 
 		return nil
@@ -265,6 +269,8 @@ func (model *OrderModel) Orders(address string, page *Page) (orders []*Order, er
 		if err != nil {
 			return err
 		}
+
+		defer rows.Close()
 
 		for rows.Next() {
 
@@ -311,9 +317,11 @@ func (model *OrderModel) Order(txid string) (find *Order, err error) {
 		rows, err := tx.Query(query, txid)
 
 		if err != nil {
-			model.ErrorF("query err: %s", err)
+			model.ErrorF("query txid %s err: %s", txid, err)
 			return err
 		}
+
+		defer rows.Close()
 
 		if rows.Next() {
 
@@ -331,7 +339,7 @@ func (model *OrderModel) Order(txid string) (find *Order, err error) {
 				&confirmTime)
 
 			if err != nil {
-				model.ErrorF("row next err: %s", err)
+				model.ErrorF("row next txid %s err: %s", txid, err)
 				return err
 			}
 

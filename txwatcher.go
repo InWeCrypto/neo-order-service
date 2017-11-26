@@ -2,6 +2,7 @@ package orderservice
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/denverdino/aliyungo/push"
 	"github.com/dynamicgo/config"
@@ -31,13 +32,20 @@ func assetName(id string) string {
 	return name
 }
 
+type pushMessage struct {
+	message string
+	id      string
+}
+
 // TxWatcher tx event watcher
 type TxWatcher struct {
 	mq      gomq.Consumer
 	dbmodel *model.DBModel
 	slf4go.Logger
-	pushClient *push.Client
-	appkey     int64
+	pushClient   *push.Client
+	appkey       int64
+	pushChan     chan *pushMessage
+	pushDuration time.Duration
 }
 
 // NewTxWatcher .
@@ -61,16 +69,23 @@ func NewTxWatcher(conf *config.Config) (*TxWatcher, error) {
 	)
 
 	return &TxWatcher{
-		mq:         mq,
-		dbmodel:    model.NewDBModel(conf, db),
-		Logger:     slf4go.Get("txwatcher"),
-		pushClient: client,
-		appkey:     conf.GetInt64("nos.push.appkey", 0),
+		mq:           mq,
+		dbmodel:      model.NewDBModel(conf, db),
+		Logger:       slf4go.Get("txwatcher"),
+		pushClient:   client,
+		appkey:       conf.GetInt64("nos.push.appkey", 0),
+		pushChan:     make(chan *pushMessage, 100),
+		pushDuration: conf.GetDuration("nos.push.duration", time.Second*2),
 	}, nil
 }
 
 // Run run watcher
 func (watcher *TxWatcher) Run() {
+
+	ticker := time.NewTicker(watcher.pushDuration)
+
+	defer ticker.Stop()
+
 	for {
 		select {
 		case message, ok := <-watcher.mq.Messages():
@@ -88,6 +103,15 @@ func (watcher *TxWatcher) Run() {
 			if ok {
 				watcher.ErrorF("kfka tx event mq err, %s", err)
 			}
+		case <-ticker.C:
+			select {
+			case message, ok := <-watcher.pushChan:
+				if ok {
+					watcher.pushMessage(message.message, message.id)
+				}
+			default:
+			}
+
 		}
 	}
 }
@@ -132,14 +156,14 @@ func (watcher *TxWatcher) notify(txid string) {
 
 	if from != nil {
 		message := fmt.Sprintf("%s转出成功：%s", assetName(order.Asset), order.Value)
-		watcher.pushMessage(message, from.UserID)
+		watcher.pushChan <- &pushMessage{message: message, id: from.UserID}
 	} else {
 		watcher.DebugF("unknown wallet %s, skip push message", order.From)
 	}
 
 	if to != nil {
 		message := fmt.Sprintf("%s转入成功：%s", assetName(order.Asset), order.Value)
-		watcher.pushMessage(message, from.UserID)
+		watcher.pushChan <- &pushMessage{message: message, id: to.UserID}
 	} else {
 		watcher.DebugF("unknown wallet %s, skip push message", order.To)
 	}
@@ -150,6 +174,9 @@ func (watcher *TxWatcher) notify(txid string) {
 }
 
 func (watcher *TxWatcher) pushMessage(message string, target string) {
+
+	watcher.DebugF("%d", watcher.appkey)
+
 	pushArgs := &push.PushArgs{
 		AppKey:      watcher.appkey,
 		Target:      push.PushTargetAll,
