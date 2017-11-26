@@ -131,11 +131,15 @@ func (watcher *TxWatcher) notify(txid string) {
 	if from != nil {
 		message := fmt.Sprintf("%s转出成功：%s", assetName(order.Asset), order.Value)
 		watcher.pushMessage(message, from.UserID)
+	} else {
+		watcher.DebugF("unknown wallet %s, skip push message", order.From)
 	}
 
 	if to != nil {
 		message := fmt.Sprintf("%s转入成功：%s", assetName(order.Asset), order.Value)
 		watcher.pushMessage(message, from.UserID)
+	} else {
+		watcher.DebugF("unknown wallet %s, skip push message", order.To)
 	}
 
 	if err != nil {
