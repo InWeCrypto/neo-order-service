@@ -85,7 +85,7 @@ func (model *WalletModel) Create(address string, userid string) error {
 
 	return model.Tx(func(tx *sql.Tx) error {
 
-		model.DebugF("create model sql :%s address:%s userid:%s", query, address, userid)
+		model.DebugF("create wallet sql :%s address:%s userid:%s", query, address, userid)
 
 		_, err := tx.Exec(query, address, userid)
 
@@ -133,7 +133,7 @@ func (model *WalletModel) GetByAddress(address string) (find *Wallet, err error)
 		return nil, fmt.Errorf("address param can't be empty string")
 	}
 
-	query := model.GetSQL("nos.orm.wallet.delete")
+	query := model.GetSQL("nos.orm.wallet.getbyaddress")
 
 	err = model.Tx(func(tx *sql.Tx) error {
 
