@@ -31,11 +31,12 @@
 			"revisionTime": "2017-11-26T09:54:29Z"
 		},
 		{
-			"checksumSHA1": "pQdQAyva/nOnQXh4sQLui5rvsbQ=",
+			"checksumSHA1": "8dMf/LWTKUevSFeTpcs/Bq6ePcs=",
 			"origin": "github.com/dynamicgo/aliyunlog/vendor/github.com/cloudflare/golz4",
 			"path": "github.com/cloudflare/golz4",
 			"revision": "52c03acb69e0d9eb5d6d8f6233259b6f202e2317",
-			"revisionTime": "2017-11-24T16:40:48Z"
+			"revisionTime": "2017-11-24T16:40:48Z",
+			"tree": true
 		},
 		{
 			"checksumSHA1": "mrz/kicZiUaHxkyfvC/DyQcr8Do=",
