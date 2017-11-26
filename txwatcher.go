@@ -105,7 +105,7 @@ func (watcher *TxWatcher) notify(txid string) {
 	order, err := orderModel.Order(txid)
 
 	if err != nil {
-		watcher.ErrorF("[message push] get order err :%s", err)
+		watcher.ErrorF("[message push] get order %s err :%s", txid, err)
 		return
 	}
 
