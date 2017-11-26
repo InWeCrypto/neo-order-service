@@ -160,6 +160,6 @@ func (watcher *TxWatcher) pushMessage(message string, target string) {
 	if err != nil {
 		watcher.ErrorF("push message to %s err, %s", target, err)
 	} else {
-		watcher.ErrorF("push message to %s : %s", target, message)
+		watcher.DebugF("push message to %s : %s", target, message)
 	}
 }
