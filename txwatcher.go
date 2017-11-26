@@ -114,6 +114,8 @@ func (watcher *TxWatcher) notify(txid string) {
 		return
 	}
 
+	watcher.DebugF("get order detail, from %s to %s", order.From, order.To)
+
 	from, err := walletModel.GetByAddress(order.From)
 
 	if err != nil {

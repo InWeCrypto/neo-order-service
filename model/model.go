@@ -311,6 +311,7 @@ func (model *OrderModel) Order(txid string) (find *Order, err error) {
 		rows, err := tx.Query(query, txid)
 
 		if err != nil {
+			model.ErrorF("query err: %s", err)
 			return err
 		}
 
@@ -330,6 +331,7 @@ func (model *OrderModel) Order(txid string) (find *Order, err error) {
 				&confirmTime)
 
 			if err != nil {
+				model.ErrorF("row next err: %s", err)
 				return err
 			}
 
