@@ -10,4 +10,6 @@ VOLUME ["/etc/inwecrypto/order/neo"]
 
 WORKDIR /etc/inwecrypto/order/neo
 
+EXPOSE 8000
+
 CMD ["/go/bin/nos","--conf","/etc/inwecrypto/order/neo/neo-order-service.json"]
