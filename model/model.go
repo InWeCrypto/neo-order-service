@@ -185,7 +185,7 @@ func (model *OrderModel) Create(order *Order) error {
 
 	return model.Tx(func(tx *sql.Tx) error {
 
-		model.DebugF("create order sql :%s order :%v", query, order)
+		model.DebugF("create order sql :%s order :%s", query, order.Tx)
 
 		_, err := tx.Exec(query, order.Tx, order.From, order.To, order.Asset, order.Value)
 
