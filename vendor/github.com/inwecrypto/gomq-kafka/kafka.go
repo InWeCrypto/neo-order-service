@@ -11,7 +11,7 @@ import (
 	"github.com/Shopify/sarama"
 	cluster "github.com/bsm/sarama-cluster"
 	"github.com/dynamicgo/config"
-	"github.com/goany/slf4go"
+	"github.com/dynamicgo/slf4go"
 	mq "github.com/inwecrypto/gomq"
 )
 
