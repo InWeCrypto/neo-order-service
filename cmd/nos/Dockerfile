@@ -10,4 +10,4 @@ VOLUME ["/etc/inwecrypto/order/neo"]
 
 WORKDIR /etc/inwecrypto/order/neo
 
-CMD ["/go/bin/neo","--conf","/etc/inwecrypto/order/neo/neo-order-service.json"]
+CMD ["/go/bin/nos","--conf","/etc/inwecrypto/order/neo/neo-order-service.json"]
