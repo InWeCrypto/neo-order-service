@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 
+	"github.com/dynamicgo/aliyunlog"
 	"github.com/dynamicgo/config"
 	"github.com/dynamicgo/slf4go"
 	orderservice "github.com/inwecrypto/neo-order-service"
@@ -22,14 +23,14 @@ func main() {
 		return
 	}
 
-	// factory, err := aliyunlog.NewAliyunBackend(neocnf)
+	factory, err := aliyunlog.NewAliyunBackend(neocnf)
 
-	// if err != nil {
-	// 	logger.ErrorF("create aliyun log backend err , %s", err)
-	// 	return
-	// }
+	if err != nil {
+		logger.ErrorF("create aliyun log backend err , %s", err)
+		return
+	}
 
-	// slf4go.Backend(factory)
+	slf4go.Backend(factory)
 
 	watcher, err := orderservice.NewTxWatcher(neocnf)
 

@@ -17,11 +17,25 @@
 			"revisionTime": "2017-11-26T09:54:29Z"
 		},
 		{
+			"checksumSHA1": "fJl61EA6M1x8NG1lRgNyxegdQls=",
+			"origin": "github.com/dynamicgo/aliyunlog/vendor/github.com/aliyun/go-loghub",
+			"path": "github.com/aliyun/go-loghub",
+			"revision": "52c03acb69e0d9eb5d6d8f6233259b6f202e2317",
+			"revisionTime": "2017-11-24T16:40:48Z"
+		},
+		{
 			"checksumSHA1": "NykgODYqok9ED1APp7mmN5w3GTg=",
 			"origin": "github.com/inwecrypto/gomq-kafka/vendor/github.com/bsm/sarama-cluster",
 			"path": "github.com/bsm/sarama-cluster",
 			"revision": "733a7bec73f91ef382c33d0497bcbc3a8a618db3",
 			"revisionTime": "2017-11-26T09:54:29Z"
+		},
+		{
+			"checksumSHA1": "pQdQAyva/nOnQXh4sQLui5rvsbQ=",
+			"origin": "github.com/dynamicgo/aliyunlog/vendor/github.com/cloudflare/golz4",
+			"path": "github.com/cloudflare/golz4",
+			"revision": "52c03acb69e0d9eb5d6d8f6233259b6f202e2317",
+			"revisionTime": "2017-11-24T16:40:48Z"
 		},
 		{
 			"checksumSHA1": "mrz/kicZiUaHxkyfvC/DyQcr8Do=",
@@ -53,6 +67,12 @@
 			"path": "github.com/dghubble/sling",
 			"revision": "80ec33c6152a53edb5545864ca37567b506c4ca5",
 			"revisionTime": "2017-06-29T03:54:44Z"
+		},
+		{
+			"checksumSHA1": "gdKDoAjJ6qJ0Xc4SplV293yV5X8=",
+			"path": "github.com/dynamicgo/aliyunlog",
+			"revision": "52c03acb69e0d9eb5d6d8f6233259b6f202e2317",
+			"revisionTime": "2017-11-24T16:40:48Z"
 		},
 		{
 			"checksumSHA1": "FbcM2THHHwG+T4WbruyMPUdB1X8=",
@@ -116,6 +136,20 @@
 			"path": "github.com/gin-gonic/gin/render",
 			"revision": "eeb57848cac06c360a3c262837394051018b8f66",
 			"revisionTime": "2017-11-21T13:18:45Z"
+		},
+		{
+			"checksumSHA1": "wn2shNJMwRZpvuvkf1s7h0wvqHI=",
+			"origin": "github.com/dynamicgo/aliyunlog/vendor/github.com/gogo/protobuf/proto",
+			"path": "github.com/gogo/protobuf/proto",
+			"revision": "52c03acb69e0d9eb5d6d8f6233259b6f202e2317",
+			"revisionTime": "2017-11-24T16:40:48Z"
+		},
+		{
+			"checksumSHA1": "HmbftipkadrLlCfzzVQ+iFHbl6g=",
+			"origin": "github.com/dynamicgo/aliyunlog/vendor/github.com/golang/glog",
+			"path": "github.com/golang/glog",
+			"revision": "52c03acb69e0d9eb5d6d8f6233259b6f202e2317",
+			"revisionTime": "2017-11-24T16:40:48Z"
 		},
 		{
 			"checksumSHA1": "yqF125xVSkmfLpIVGrLlfE05IUk=",
