@@ -243,7 +243,9 @@ func (model *OrderModel) Status(txid string) (ok bool, err error) {
 
 		defer rows.Close()
 
-		ok = rows.NextResultSet()
+		if rows.Next() {
+			ok = true
+		}
 
 		return nil
 
@@ -257,6 +259,8 @@ func (model *OrderModel) Orders(address string, asset string, page *Page) (order
 	if address == "" {
 		return nil, fmt.Errorf("address param can't be empty string")
 	}
+
+	orders = make([]*Order, 0)
 
 	query := model.GetSQL("nos.orm.order.list")
 

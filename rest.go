@@ -109,15 +109,15 @@ func (service *HTTPServer) makeRouters() {
 		}
 	})
 
-	service.engine.POST("/order/:tx", func(ctx *gin.Context) {
-		orderModel := model.OrderModel{DBModel: service.dbmodel}
+	// service.engine.POST("/order/:tx", func(ctx *gin.Context) {
+	// 	orderModel := model.OrderModel{DBModel: service.dbmodel}
 
-		if err := orderModel.Confirm(ctx.Param("tx")); err != nil {
-			service.ErrorF("confirm order error :%s", err)
-			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-			return
-		}
-	})
+	// 	if err := orderModel.Confirm(ctx.Param("tx")); err != nil {
+	// 		service.ErrorF("confirm order error :%s", err)
+	// 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	// 		return
+	// 	}
+	// })
 
 	service.engine.GET("/order/:tx", func(ctx *gin.Context) {
 		orderModel := model.OrderModel{DBModel: service.dbmodel}
@@ -130,7 +130,9 @@ func (service *HTTPServer) makeRouters() {
 			return
 		}
 
-		ctx.JSON(http.StatusOK, &struct{ Status bool }{
+		ctx.JSON(http.StatusOK, &struct {
+			Status bool `json:"status"`
+		}{
 			Status: ok,
 		})
 	})
