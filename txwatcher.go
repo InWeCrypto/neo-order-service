@@ -91,7 +91,7 @@ func (watcher *TxWatcher) Run() {
 		case message, ok := <-watcher.mq.Messages():
 			if ok {
 				if err := watcher.confirm(string(message.Key())); err != nil {
-					watcher.ErrorF("process tx confirm error,%s":err)
+					watcher.ErrorF("process tx confirm error,%s", err)
 					continue
 				}
 
