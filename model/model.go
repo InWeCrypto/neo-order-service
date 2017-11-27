@@ -253,7 +253,7 @@ func (model *OrderModel) Status(txid string) (ok bool, err error) {
 }
 
 // Orders get orders
-func (model *OrderModel) Orders(address string, page *Page) (orders []*Order, err error) {
+func (model *OrderModel) Orders(address string, asset string, page *Page) (orders []*Order, err error) {
 	if address == "" {
 		return nil, fmt.Errorf("address param can't be empty string")
 	}
@@ -264,7 +264,7 @@ func (model *OrderModel) Orders(address string, page *Page) (orders []*Order, er
 
 		model.DebugF("list sql :%s address:%s page: %d size: %d", query, address, page.Offset, page.Size)
 
-		rows, err := tx.Query(query, address, page.Offset*page.Size, page.Size)
+		rows, err := tx.Query(query, address, asset, page.Offset*page.Size, page.Size)
 
 		if err != nil {
 			return err

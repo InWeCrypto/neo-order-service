@@ -64,7 +64,7 @@ func TestConfirmOrder(t *testing.T) {
 }
 
 func TestListOrder(t *testing.T) {
-	request, err := sling.New().Get("http://localhost:8000/orders/xxxxxxx/0/20").Request()
+	request, err := sling.New().Get("http://localhost:8000/orders/xxxxxxx/xxxxxxxxxxx/0/20").Request()
 
 	assert.NoError(t, err)
 

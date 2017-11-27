@@ -135,8 +135,10 @@ func (service *HTTPServer) makeRouters() {
 		})
 	})
 
-	service.engine.GET("/orders/:address/:offset/:size", func(ctx *gin.Context) {
+	service.engine.GET("/orders/:address/:asset/:offset/:size", func(ctx *gin.Context) {
 		orderModel := model.OrderModel{DBModel: service.dbmodel}
+
+		service.DebugF("%v", ctx.Params)
 
 		page, err := parsePage(ctx.Param("offset"), ctx.Param("size"))
 
@@ -146,7 +148,7 @@ func (service *HTTPServer) makeRouters() {
 			return
 		}
 
-		orders, err := orderModel.Orders(ctx.Param("address"), page)
+		orders, err := orderModel.Orders(ctx.Param("address"), ctx.Param("asset"), page)
 
 		if err != nil {
 			service.ErrorF("order list error :%s", err)
