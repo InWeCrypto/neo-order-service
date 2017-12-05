@@ -29,6 +29,9 @@ func NewHTTPServer(cnf *config.Config) (*HTTPServer, error) {
 
 	engine := gin.Default()
 
+	engine := gin.New()
+	engine.Use(gin.Recovery())
+
 	db, err := openDB(cnf)
 
 	if err != nil {
