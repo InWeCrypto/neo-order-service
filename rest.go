@@ -27,8 +27,6 @@ func NewHTTPServer(cnf *config.Config) (*HTTPServer, error) {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	engine := gin.Default()
-
 	engine := gin.New()
 	engine.Use(gin.Recovery())
 
