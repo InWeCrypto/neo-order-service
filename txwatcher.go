@@ -175,7 +175,7 @@ func (watcher *TxWatcher) notify(txid string) {
 
 func (watcher *TxWatcher) pushMessage(message string, target string) {
 
-	watcher.DebugF("%d", watcher.appkey)
+	watcher.DebugF("push message '%s' to %s", message, target)
 
 	pushArgs := &push.PushArgs{
 		AppKey:      watcher.appkey,
