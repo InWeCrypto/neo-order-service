@@ -181,7 +181,7 @@ func (watcher *TxWatcher) pushMessage(message string, target string) {
 		AppKey:      watcher.appkey,
 		Target:      push.PushTargetAll,
 		TargetValue: target,
-		PushType:    push.PushTypeMessage,
+		PushType:    push.PushTypeNotice,
 		DeviceType:  push.PushDeviceTypeAll,
 		Title:       "转账通知",
 		Body:        message,
