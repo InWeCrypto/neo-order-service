@@ -254,6 +254,11 @@ func (model *OrderModel) Status(txid string) (ok bool, err error) {
 	return
 }
 
+// TryCreateExternalOrder .
+func (model *OrderModel) TryCreateExternalOrder(txid string) (ok bool, err error) {
+	query := model.GetSQL("nos.orm.order.wallet")
+}
+
 // Orders get orders
 func (model *OrderModel) Orders(address string, asset string, page *Page) (orders []*Order, err error) {
 	if address == "" {
