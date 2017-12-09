@@ -335,15 +335,15 @@ func (model *OrderModel) Confirm(txid string) (err error) {
 
 	confirmQuery := model.GetSQL("nos.orm.order.confirm")
 
-	err = model.Tx(func(tx *sql.Tx) error {
+	return model.Tx(func(tx *sql.Tx) error {
 
 		rows, err := tx.Query(query, txid)
-
-		model.DebugF("query %s with %s", query, txid)
 
 		if err != nil {
 			return err
 		}
+
+		model.DebugF("query %s with %s", query, txid)
 
 		defer rows.Close()
 
@@ -352,6 +352,8 @@ func (model *OrderModel) Confirm(txid string) (err error) {
 		if err != nil {
 			return err
 		}
+
+		model.DebugF("prepare %s ", createQuery)
 
 		defer stmt.Close()
 
@@ -390,8 +392,6 @@ func (model *OrderModel) Confirm(txid string) (err error) {
 
 		return err
 	})
-
-	return nil
 }
 
 // Orders get orders
