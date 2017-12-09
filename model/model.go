@@ -371,9 +371,12 @@ func (model *OrderModel) Confirm(txid string) (err error) {
 				continue
 			}
 
+			model.DebugF("create sql %s with %s %s %s %.8f", txid, address, selectTx.Assert, selectTx.Value)
+
 			_, err := tx.Exec(createQuery, txid, "", address, selectTx.Assert, selectTx.Value)
 
 			if err != nil {
+				model.ErrorF("create order for tx %s error %s", txid, err)
 				return err
 			}
 		}
