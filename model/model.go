@@ -347,17 +347,6 @@ func (model *OrderModel) Confirm(txid string) (err error) {
 
 		defer rows.Close()
 
-		stmt, err := tx.Prepare(createQuery)
-
-		if err != nil {
-			model.ErrorF("prepare %s err, %s", createQuery, err)
-			return err
-		}
-
-		model.DebugF("prepare %s with tx %s", createQuery, txid)
-
-		defer stmt.Close()
-
 		for rows.Next() {
 
 			var address string
@@ -382,7 +371,7 @@ func (model *OrderModel) Confirm(txid string) (err error) {
 				continue
 			}
 
-			_, err := stmt.Exec(txid, "", address, selectTx.Assert, selectTx.Value)
+			_, err := tx.Exec(createQuery, txid, "", address, selectTx.Assert, selectTx.Value)
 
 			if err != nil {
 				return err
