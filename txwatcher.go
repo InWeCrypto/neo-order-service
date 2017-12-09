@@ -92,6 +92,7 @@ func (watcher *TxWatcher) Run() {
 			if ok {
 				if err := watcher.confirm(string(message.Key())); err != nil {
 					watcher.ErrorF("process tx confirm error,%s", err)
+					watcher.mq.Commit(message)
 					continue
 				}
 
