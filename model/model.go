@@ -350,10 +350,11 @@ func (model *OrderModel) Confirm(txid string) (err error) {
 		stmt, err := tx.Prepare(createQuery)
 
 		if err != nil {
+			model.ErrorF("prepare %s err, %s", createQuery, err)
 			return err
 		}
 
-		model.DebugF("prepare %s ", createQuery)
+		model.DebugF("prepare %s with tx %s", createQuery, txid)
 
 		defer stmt.Close()
 
@@ -387,6 +388,8 @@ func (model *OrderModel) Confirm(txid string) (err error) {
 				return err
 			}
 		}
+
+		model.DebugF("confirm %s with tx %s", confirmQuery, txid)
 
 		_, err = tx.Exec(confirmQuery, txid)
 
