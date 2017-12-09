@@ -327,40 +327,17 @@ func (model *OrderModel) Confirm(txid string) (err error) {
 		return nil
 	}
 
-	// wallet.GetByAddress()
-
-	query := model.GetSQL("nos.orm.order.wallet")
-
 	createQuery := model.GetSQL("nos.orm.order.createWithConfirm")
 
 	confirmQuery := model.GetSQL("nos.orm.order.confirm")
 
 	return model.Tx(func(tx *sql.Tx) error {
 
-		rows, err := tx.Query(query, txid)
+		addressed, err := model.getAddresses(tx, txid)
 
-		if err != nil {
-			return err
-		}
+		var selectTx *Tx
 
-		model.DebugF("query %s with %s", query, txid)
-
-		defer rows.Close()
-
-		for rows.Next() {
-
-			var address string
-
-			err = rows.Scan(&address)
-
-			if err != nil {
-				return err
-			}
-
-			var selectTx *Tx
-
-			model.DebugF("tx %s to known address %s", txid, address)
-
+		for _, address := range addressed {
 			for _, tx := range txs {
 				if tx.Address == address {
 					selectTx = tx
@@ -372,7 +349,7 @@ func (model *OrderModel) Confirm(txid string) (err error) {
 				continue
 			}
 
-			model.DebugF("create sql %s with %s %s %s %.8f", createQuery, txid, address, selectTx.Assert, selectTx.Value)
+			// model.DebugF("create sql %s with %s %s %s %.8f", createQuery, txid, address, selectTx.Assert, selectTx.Value)
 
 			_, err := tx.Exec(createQuery, txid, "", address, selectTx.Assert, selectTx.Value)
 
@@ -382,12 +359,43 @@ func (model *OrderModel) Confirm(txid string) (err error) {
 			}
 		}
 
-		model.DebugF("confirm %s with tx %s", confirmQuery, txid)
-
 		_, err = tx.Exec(confirmQuery, txid)
 
 		return err
 	})
+}
+
+func (model *OrderModel) getAddresses(tx *sql.Tx, txid string) ([]string, error) {
+	query := model.GetSQL("nos.orm.order.wallet")
+
+	rows, err := tx.Query(query, txid)
+
+	if err != nil {
+		return nil, err
+	}
+
+	model.DebugF("query %s with %s", query, txid)
+
+	defer rows.Close()
+
+	var addresses []string
+
+	for rows.Next() {
+
+		var address string
+
+		err = rows.Scan(&address)
+
+		if err != nil {
+			return nil, err
+		}
+
+		model.DebugF("tx %s to known address %s", txid, address)
+
+		addresses = append(addresses, address)
+	}
+
+	return addresses, nil
 }
 
 // Orders get orders

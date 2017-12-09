@@ -141,11 +141,20 @@ func (watcher *TxWatcher) notify(txid string) {
 
 	watcher.DebugF("get order detail, from %s to %s", order.From, order.To)
 
-	from, err := walletModel.GetByAddress(order.From)
+	if order.From != "" {
+		from, err := walletModel.GetByAddress(order.From)
 
-	if err != nil {
-		watcher.ErrorF("[message push] get from wallet %s err :%s", order.From, err)
-		return
+		if err != nil {
+			watcher.ErrorF("[message push] get from wallet %s err :%s", order.From, err)
+			return
+		}
+
+		if from != nil {
+			message := fmt.Sprintf("%s转出成功：%s", assetName(order.Asset), order.Value)
+			watcher.pushChan <- &pushMessage{message: message, id: from.UserID}
+		} else {
+			watcher.DebugF("unknown wallet %s, skip push message", order.From)
+		}
 	}
 
 	to, err := walletModel.GetByAddress(order.To)
@@ -153,13 +162,6 @@ func (watcher *TxWatcher) notify(txid string) {
 	if err != nil {
 		watcher.ErrorF("[message push] get to wallet %s err :%s", order.To, err)
 		return
-	}
-
-	if from != nil {
-		message := fmt.Sprintf("%s转出成功：%s", assetName(order.Asset), order.Value)
-		watcher.pushChan <- &pushMessage{message: message, id: from.UserID}
-	} else {
-		watcher.DebugF("unknown wallet %s, skip push message", order.From)
 	}
 
 	if to != nil {
