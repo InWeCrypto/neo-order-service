@@ -368,6 +368,7 @@ func (model *OrderModel) Confirm(txid string) (err error) {
 			}
 
 			if selectTx == nil {
+				model.WarnF("tx %s to known address %s not found", txid, address)
 				continue
 			}
 
