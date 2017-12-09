@@ -339,7 +339,7 @@ func (model *OrderModel) Confirm(txid string) (err error) {
 
 		rows, err := tx.Query(query, txid)
 
-		model.DebugF("query %s with id", txid)
+		model.DebugF("query %s with %s", query, id)
 
 		if err != nil {
 			return err
