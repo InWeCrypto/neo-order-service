@@ -164,6 +164,61 @@ func (model *WalletModel) GetByAddress(address string) (find *Wallet, err error)
 	return
 }
 
+// TxModel .
+type TxModel struct {
+	*DBModel
+}
+
+// Tx .
+type Tx struct {
+	ID         string
+	Blocks     uint64
+	TX         string
+	Address    string
+	Type       string
+	Assert     string
+	Value      float64
+	UpdateTime string
+}
+
+// GetByID get tx object list by tx id
+func (model *TxModel) GetByID(id string) ([]*Tx, error) {
+
+	query := model.GetSQL("nos.orm.tx.id")
+
+	rows, err := model.db.Query(query, id)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var result []*Tx
+
+	for rows.Next() {
+		var tx Tx
+		if err := rows.Scan(
+			&tx.ID,
+			&tx.Blocks,
+			&tx.Address,
+			&tx.Type,
+			&tx.Assert,
+			&tx.Value,
+			&tx.UpdateTime); err != nil {
+
+			return nil, err
+
+		}
+
+		tx.TX = id
+
+		result = append(result, &tx)
+	}
+
+	return result, nil
+}
+
 // OrderModel neo order model
 type OrderModel struct {
 	*DBModel
@@ -201,27 +256,27 @@ func (model *OrderModel) Create(order *Order) error {
 }
 
 // Confirm confirm order
-func (model *OrderModel) Confirm(txid string) error {
+// func (model *OrderModel) Confirm(txid string) error {
 
-	if txid == "" {
-		return fmt.Errorf("tx param can't be empty string")
-	}
+// 	if txid == "" {
+// 		return fmt.Errorf("tx param can't be empty string")
+// 	}
 
-	query := model.GetSQL("nos.orm.order.confirm")
+// 	query := model.GetSQL("nos.orm.order.confirm")
 
-	return model.Tx(func(tx *sql.Tx) error {
+// 	return model.Tx(func(tx *sql.Tx) error {
 
-		model.DebugF("confirm sql :%s tx :%s", query, txid)
+// 		model.DebugF("confirm sql :%s tx :%s", query, txid)
 
-		_, err := tx.Exec(query, txid)
+// 		_, err := tx.Exec(query, txid)
 
-		if err != nil {
-			return err
-		}
+// 		if err != nil {
+// 			return err
+// 		}
 
-		return nil
-	})
-}
+// 		return nil
+// 	})
+// }
 
 // Status .
 func (model *OrderModel) Status(txid string) (ok bool, err error) {
@@ -254,9 +309,87 @@ func (model *OrderModel) Status(txid string) (ok bool, err error) {
 	return
 }
 
-// TryCreateExternalOrder .
-func (model *OrderModel) TryCreateExternalOrder(txid string) (ok bool, err error) {
+// Confirm .
+func (model *OrderModel) Confirm(txid string) (err error) {
+
+	model.DebugF("confirm order with tx %s", txid)
+
+	txModel := &TxModel{DBModel: model.DBModel}
+
+	txs, err := txModel.GetByID(txid)
+
+	if err != nil {
+		return err
+	}
+
+	if len(txs) == 0 {
+		model.WarnF("confirm order with tx %s, tx not found", txid)
+		return nil
+	}
+
+	// wallet.GetByAddress()
+
 	query := model.GetSQL("nos.orm.order.wallet")
+
+	createQuery := model.GetSQL("nos.orm.order.createWithConfirm")
+
+	confirmQuery := model.GetSQL("nos.orm.order.confirm")
+
+	err = model.Tx(func(tx *sql.Tx) error {
+
+		rows, err := tx.Query(query, txid)
+
+		if err != nil {
+			return err
+		}
+
+		defer rows.Close()
+
+		stmt, err := tx.Prepare(createQuery)
+
+		if err != nil {
+			return err
+		}
+
+		defer stmt.Close()
+
+		for rows.Next() {
+
+			var address string
+
+			err = rows.Scan(&address)
+
+			if err != nil {
+				return err
+			}
+
+			var selectTx *Tx
+
+			model.DebugF("tx %s to known address %s", txid, address)
+
+			for _, tx := range txs {
+				if tx.Address == address {
+					selectTx = tx
+				}
+			}
+
+			if selectTx == nil {
+				continue
+			}
+
+			_, err := stmt.Exec(txid, "", address, selectTx.Assert, selectTx.Value)
+
+			if err != nil {
+				return err
+			}
+		}
+
+		_, err = tx.Exec(confirmQuery, txid)
+
+		return err
+	})
+
+	return nil
 }
 
 // Orders get orders
