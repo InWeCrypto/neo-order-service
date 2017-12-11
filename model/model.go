@@ -186,6 +186,8 @@ func (model *TxModel) GetByID(id string) ([]*Tx, error) {
 
 	query := model.GetSQL("nos.orm.tx.id")
 
+	model.DebugF("get tx by id: %s with id %s", query, id)
+
 	rows, err := model.db.Query(query, id)
 
 	if err != nil {
