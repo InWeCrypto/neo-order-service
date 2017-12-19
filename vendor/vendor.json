@@ -201,10 +201,10 @@
 			"revisionTime": "2017-11-26T09:54:29Z"
 		},
 		{
-			"checksumSHA1": "mCYd3L7euqXsYhuTWmDYjJzZNY8=",
+			"checksumSHA1": "pW6otrGVHSGrsfIa7SN92HrIVs4=",
 			"path": "github.com/inwecrypto/neodb",
-			"revision": "a15558bacf74b227be7915f6e16240009c814a7f",
-			"revisionTime": "2017-12-14T10:37:06Z"
+			"revision": "e50e2241c2f1fe4d022a138eabdd70803db40eee",
+			"revisionTime": "2017-12-19T03:56:57Z"
 		},
 		{
 			"checksumSHA1": "3HVfwgLpCDH8JX211UWdrSi/GU4=",
@@ -213,7 +213,7 @@
 			"revisionTime": "2017-10-22T19:20:43Z"
 		},
 		{
-			"checksumSHA1": "ATnwV0POluBNQEMjPdylodz0oK0=",
+			"checksumSHA1": "AU3fA8Sm33Vj9PBoRPSeYfxLRuE=",
 			"path": "github.com/lib/pq/oid",
 			"revision": "b609790bd85edf8e9ab7e0f8912750a786177bcf",
 			"revisionTime": "2017-10-22T19:20:43Z"
