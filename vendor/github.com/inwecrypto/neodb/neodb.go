@@ -36,8 +36,8 @@ func (tx *Block) TableName() string {
 // UTXO .
 type UTXO struct {
 	ID          int64      `xorm:"pk autoincr"`
-	TX          string     `xorm:"notnull"`
-	N           int        `xorm:"notnull"`
+	TX          string     `xorm:"notnull index(vout)"`
+	N           int        `xorm:"notnull index(vout)"`
 	Address     string     `xorm:"notnull"`
 	CreateBlock int64      `xorm:"notnull index"`
 	SpentBlock  int64      `xorm:"notnull index default (-1)"`
