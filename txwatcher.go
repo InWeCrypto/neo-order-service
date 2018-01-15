@@ -111,23 +111,23 @@ func (watcher *TxWatcher) Run() {
 func (watcher *TxWatcher) confirm(txid string) error {
 	watcher.DebugF("handle tx %s", txid)
 
-	neoTx := new(neodb.Tx)
+	neoTxs := make([]*neodb.Tx, 0)
 
-	ok, err := watcher.db.Where("t_x = ?", txid).Get(neoTx)
+	err := watcher.db.Where("t_x = ?", txid).Find(&neoTxs)
 
 	if err != nil {
 		return err
 	}
 
-	if !ok {
+	if len(neoTxs) == 0 {
 		watcher.WarnF("handle tx %s -- not found", txid)
 		return nil
 	}
 
 	order := new(neodb.Order)
 
-	order.ConfirmTime = &neoTx.CreateTime
-	order.Block = int64(neoTx.Block)
+	order.ConfirmTime = &neoTxs[0].CreateTime
+	order.Block = int64(neoTxs[0].Block)
 
 	updated, err := watcher.db.Where("t_x = ?", txid).Cols("confirm_time", "block").Update(order)
 
@@ -140,23 +140,33 @@ func (watcher *TxWatcher) confirm(txid string) error {
 		return nil
 	}
 
+	var orders []*neodb.Order
 	wallet := new(neodb.Wallet)
 
-	count, err := watcher.db.Where(`"address" = ? or "address" = ?`, neoTx.From, neoTx.To).Count(wallet)
+	for _, tx := range neoTxs {
 
-	if err != nil {
-		return err
+		count, err := watcher.db.Where(`"address" = ? or "address" = ?`, tx.From, tx.To).Count(wallet)
+
+		if err != nil {
+			return err
+		}
+
+		if count > 0 {
+
+			order := new(neodb.Order)
+
+			order.Asset = tx.Asset
+			order.From = tx.From
+			order.To = tx.To
+			order.TX = tx.TX
+			order.Value = tx.Value
+			order.CreateTime = tx.CreateTime
+			orders = append(orders, order)
+		}
 	}
 
-	if count > 0 {
-		order.Asset = neoTx.Asset
-		order.From = neoTx.From
-		order.To = neoTx.To
-		order.TX = neoTx.TX
-		order.Value = neoTx.Value
-		order.CreateTime = neoTx.CreateTime
-
-		_, err = watcher.db.Insert(order)
+	if len(orders) > 0 {
+		_, err = watcher.db.Insert(&orders)
 
 		return err
 	}
