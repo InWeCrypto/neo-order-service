@@ -70,7 +70,7 @@ func (service *HTTPServer) Run() error {
 func (service *HTTPServer) makeRouters() {
 	service.engine.POST("/wallet/:userid/:address", func(ctx *gin.Context) {
 
-		if err := service.createWallet(ctx.Param("address"), ctx.Param("userid")); err != nil {
+		if err := service.createWallet(ctx.Param("userid"), ctx.Param("address")); err != nil {
 			service.ErrorF("create wallet error :%s", err)
 			ctx.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
