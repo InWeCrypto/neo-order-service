@@ -161,6 +161,8 @@ func (watcher *TxWatcher) confirm(txid string) error {
 			order.TX = tx.TX
 			order.Value = tx.Value
 			order.CreateTime = tx.CreateTime
+			order.ConfirmTime = &tx.CreateTime
+			order.Block = int64(tx.Block)
 			orders = append(orders, order)
 		}
 	}
